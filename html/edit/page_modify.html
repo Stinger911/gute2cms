@@ -1,0 +1,201 @@
+{% extends 'authenticated.html' %}
+
+{% block title %}Modify Page{% endblock %}
+
+{% block content %}
+<script src="/style/codemirror/codemirror-compressed.js"></script>
+<script src="/style/codemirror/formatting.js"></script>
+<script src="/style/codemirror/search.js"></script>
+<script src="/style/codemirror/searchcursor.js"></script>
+<script src="/style/codemirror/closetag.js"></script>
+<script src="/style/codemirror/foldcode.js"></script>
+<script src="/style/codemirror/dialog.js"></script>
+  <h1>Edit Page</h1>
+  <form id="deleter" action="/edit/pages/delete" method="post">
+    <input type="hidden" name="key" value="{{ page.key }}"/>
+    <div><button id="delpage">Delete</button></div>
+  </form>
+  <form id="editor" action="/edit/pages/modify" method="post">
+    <input type="hidden" name="key" value="{{ page.key }}"/>
+    <input type="hidden" name="oldurl" value="{{ page.url }}"/>
+    <table width="100%" border="0"><tr>
+      <td width="50%">Path (<i>start with "/"</i>)</td><td>Title</td>
+    </tr><tr>
+      <td><input name="url" value="{{ page.url }}" class="ui-widget-content ui-corner-all" style="width:100%"/></td>
+      <td><input name="title" value="{{ page.title }}" class="ui-widget-content ui-corner-all" style="width:100%"/></td>
+    </tr></table>
+    <div>
+      <div class="ui-widget-header" style="padding:.2em">
+      <table border="0" width="100%" cellpadding="0" cellspacing="0"><tr>
+        <td style="width:100%">
+          <button class="save" title="<span style='font-size:9pt'>Save &amp; close</span>">.</button>
+          <button id="undo" title="<span style='font-size:9pt'>Undo</span>">.</button>
+          <button id="redo" title="<span style='font-size:9pt'>Redo</span>">.</button>
+          <button id="autoformat" title="<span style='font-size:9pt'>Autoformat selection</span>">.</button>
+          <button id="folding" title="<span style='font-size:9pt'><b>Ctrl-Q:</b> Fold/Unfold code fragment</span>">.</button>
+          <button id="search" title="<b style='font-size:9pt'>Search</b><br/><table border='0' style='font-size:8pt'><tr><td><b>Ctrl-F / Cmd-F</b></td><td>Start searching</td></tr><tr><td><b>Ctrl-G / Cmd-G</b></td><td>Find next</td></tr><tr><td><b>Shift-Ctrl-G / Shift-Cmd-G</b></td><td>Find previous</td></tr></table>">.</button>
+          <button id="replace" title="<b style='font-size:9pt'>Replace</b><br/><table border='0' style='font-size:8pt'><tr><td><b>Shift-Ctrl-F / Cmd-Option-F</b></td><td>Replace</td></tr><tr><td><b>Shift-Ctrl-R / Shift-Cmd-Option-F</b></td><td>Replace all</td></tr></table></div>">.</button>
+          <button class="preview" title="<span style='font-size:9pt'>Preview page</span>">.</button>
+        </td>
+        <td style="white-space:nowrap"><span style="color:#fff">Theme:</span>
+          <select onchange="selectTheme()" id="select" class="ui-state-default ui-corner-all" style="vertical-align:top;">
+          <option selected>default</option>
+          <option>ambiance</option>
+          <option>blackboard</option>
+          <option>cobalt</option>
+          <option>eclipse</option>
+          <option>elegant</option>
+          <option>erlang-dark</option>
+          <option>lesser-dark</option>
+          <option>monokai</option>
+          <option>neat</option>
+          <option>night</option>
+          <option>rubyblue</option>
+          <option>solarized dark</option>
+          <option>solarized light</option>
+          <option>twilight</option>
+          <option>vibrant-ink</option>
+          <option>xq-dark</option>
+        </select></span></td>
+      </tr></table></div>
+    	<textarea id="pcontent" name="content" rows="30">{{ page.content }}</textarea>
+      <div class="ui-widget-header" style="padding:.2em">
+        <button class="save" title="<span style='font-size:9pt'>Save &amp; close</span>">.</button>
+          <button class="preview" title="<span style='font-size:9pt'>Preview page</span>">.</button>
+      </div>
+	</div>
+  </form>
+<script>
+  var foldFunc_html = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder);
+  var editor = CodeMirror.fromTextArea(document.getElementById("pcontent"), {
+    lineNumbers: true,
+    mode: "text/html",
+    autoCloseTags: true,
+    extraKeys: {"Ctrl-Q": function(cm){foldFunc_html(cm, cm.getCursor().line);}}
+  });
+  var input = document.getElementById("select");
+  function selectTheme() {
+    var theme = input.options[input.selectedIndex].innerHTML;
+    editor.setOption("theme", theme);
+  }
+  var choice = document.location.search &&
+               decodeURIComponent(document.location.search.slice(1));
+  if (choice) {
+    input.value = choice;
+    editor.setOption("theme", choice);
+  }
+
+  function getSelectedRange() {
+    return { from: editor.getCursor(true), to: editor.getCursor(false) };
+  }
+  
+  function autoFormatSelection() {
+    var range = getSelectedRange();
+    editor.autoFormatRange(range.from, range.to);
+  }
+
+  $(function() {
+    $("#delpage")
+      .button({
+        icons: {
+          primary: "ui-icon-closethick"
+        }
+      })
+      .click(function(event) {
+        $("#deleter").submit();
+        event.preventDefault();
+      });
+    $(".save")
+      .button({
+        icons: {
+          primary: "ui-icon-disk"
+        },
+        text: false
+      })
+      .click(function( event ) {
+        $( "#editor" ).submit();
+        event.preventDefault();
+      });
+    $(".preview")
+      .button({
+        icons: {
+          primary: "ui-icon-image"
+        },
+        text: false
+      })
+      .click(function( event ) {
+        // todo: show preview dialog
+        event.preventDefault();
+      });
+      $("#undo")
+      .button({
+        icons: {
+          primary: "ui-icon-arrowreturnthick-1-w"
+        },
+        text: false
+      })
+        .click(function( event ) {
+        CodeMirror.commands.undo(editor);
+        event.preventDefault();
+      });
+      $("#redo")
+      .button({
+        icons: {
+          primary: "ui-icon-arrowreturnthick-1-e"
+        },
+        text: false
+      })
+        .click(function( event ) {
+        CodeMirror.commands.redo(editor);
+        event.preventDefault();
+      });
+      $("#autoformat")
+      .button({
+        icons: {
+          primary: "ui-icon-transferthick-e-w"
+        },
+        text: false
+      })
+        .click(function( event ) {
+        autoFormatSelection();
+        event.preventDefault();
+      });
+    $("#folding")
+      .button({
+        icons: {
+          primary: "ui-icon-triangle-1-se"
+        },
+      text: false
+      })
+      .click(function( event ) {
+        foldFunc_html(editor, editor.getCursor().line);
+        event.preventDefault();
+      });
+    $("#search")
+      .button({
+        icons: {
+          primary: "ui-icon-search"
+        },
+      text: false
+      })
+      .click(function( event ) {
+        CodeMirror.commands.find(editor);
+        event.preventDefault();
+      });
+    $("#replace")
+      .button({
+        icons: {
+          primary: "ui-icon-pencil"
+        },
+      text: false
+      })
+      .click(function( event ) {
+        CodeMirror.commands.replace(editor);
+        event.preventDefault();
+      });
+      $("button").removeClass("ui-widget");
+    $( document ).tooltip();
+    editor.setOption("theme", "default");
+  });
+</script>
+{% endblock %}

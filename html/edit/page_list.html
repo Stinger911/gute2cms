@@ -1,0 +1,53 @@
+{% extends 'authenticated.html' %}
+
+{% block title %}Page List{% endblock %}
+
+{% block content %}
+  <h2>Pages</h2>
+  <p><a href="/edit/pages/add" class="button ui-state-default ui-corner-all">Add</a></p>
+  {% if list.has_previous or list.has_next %}
+    <table class="pages" border="0" cellspacing="0" cellpadding="2" style="background-color:#FFF"><tr><td width="50%">
+    {% if list.has_previous %}
+      <a href="?pg={{ list.previous_page_number }}">&laquo;</a>
+    {% endif %}
+    <span class="current">
+      [ Page {{ list.number }} of {{ list.paginator.num_pages }} ]
+    </span>
+    {% if list.has_next %}
+      <a href="?pg={{ list.next_page_number }}">&raquo;</a>
+    {% endif %}
+  </td><td width="50%" align="right">
+    Or enter page #: <form method="GET" style="display:inline;"><input type="text" name="pg" style="width:60px"><input type="submit" value="Go"></form>
+  </td></tr></table>
+  {% endif %}
+  <table class="ui-widget ui-widget-content ui-corner-all" border="0" cellspacing="0" cellpadding="2" width="100%">
+  <thead>
+    <tr class="ui-widget-header" style="text-align:left"><th>View</th><th>Edit</th><th>Author</th><th>Date</th></tr>
+  </thead>
+  <tbody>
+  {% for item in list.object_list %}
+    <tr>
+      <td><a href="{{ item.url }}" class="ui-state-default" style="background: #fff; border: none;">{{ item.url }}</a></td>
+      <td><a href="/edit/pages/modify?key={{ item.key }}" class="ui-state-default" style="background: #fff; border: none;">{{ item.title }}</a></td>
+      <td>{{ item.author }}</td>
+      <td>{{ item.formatted_date }}</td>
+    </t>
+  {% endfor %}
+  </tbody>
+  </table>
+  {% if list.has_previous or list.has_next %}
+    <table class="pages" border="0" cellspacing="0" cellpadding="2" style="background-color:#FFF"><tr><td width="50%">
+    {% if list.has_previous %}
+      <a href="?pg={{ list.previous_page_number }}">&laquo;</a>
+    {% endif %}
+    <span class="current">
+      [ Page {{ list.number }} of {{ list.paginator.num_pages }} ]
+    </span>
+    {% if list.has_next %}
+      <a href="?pg={{ list.next_page_number }}">&raquo;</a>
+    {% endif %}
+  </td><td width="50%" align="right">
+    Or enter page #: <form method="GET" style="display:inline;"><input type="text" name="pg" style="width:60px"><input type="submit" value="Go"></form>
+  </td></tr></table>
+  {% endif %}
+{% endblock %}

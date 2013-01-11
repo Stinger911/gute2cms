@@ -1,0 +1,26 @@
+{% extends 'authenticated.html' %}
+
+{% block title %}Add Role Assignment{% endblock %}
+
+{% block content %}
+  <h1>Add Role Assignment</h1>
+  <form action="/edit/roles/add" method="post">
+    <table border="0"><tr>
+      <td >User</td><td>Role</td>
+    </tr><tr>
+      <td><input name="user" class="ui-widget-content ui-corner-all" style="width:100%"/></td>
+      <td><select name="role" class="ui-state-default ui-corner-all">
+        <option value="Editor">Editor</option>
+        <option value="Manager">Manager</option>
+      </select></td>
+    </tr></table>
+    <p><i>Manager can create and edit role assignments</i></p>
+    <p><i>Editor can create and modify pages</i></p>
+    <div><input type="submit" value="Save"></div>
+  </form>
+  <script type="text/javascript">
+  $(function() {
+    $("input[type=submit]").button();
+  })
+  </script>
+{% endblock %}

@@ -1,0 +1,17 @@
+application: gute2cms
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /style
+  static_dir: style
+
+- url: /favicon.ico
+  static_files: style/default/favicon.ico
+  upload: style/default/favicon.ico
+
+- url: /.*
+  script: app.app
+

@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+<title>{{ page.title }}</title>
+<link rel="shortcut icon" href="/style/default/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" href="/style/edit/main.css" type="text/css"/>
+<link rel="stylesheet" href="/style/edit/jquery-ui.min.css" type="text/css"/>
+</head>
+<body>
+<div id="page">
+
+<div id="header">
+<span id="title"><a href="/">Gute2 CMS</a></span>
+</div>
+
+<div class="content">
+{% autoescape off %}{{ page.content }}{% endautoescape %}
+</div>
+
+</div>
+</body>
+</html>

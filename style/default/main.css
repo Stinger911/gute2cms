@@ -1,0 +1,61 @@
+root {
+  display: block;
+}
+body {
+  background-color: #fff; color: #000;    
+  text-align: center;
+}
+body, p, ol, ul, th, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+}
+a { color: #2e6e9e; text-decoration: underline; font-weight: bold; }
+a:visited { color: #2e6e9e; text-decoration: underline; font-weight: bold; }
+a:hover { background: #D0E5F5; }
+a.button { text-decoration: none; padding: .1em .2em}
+a.button:hover { background: #D0E5F5; text-decoration: none; padding: .1em .2em}
+
+div#page {
+  background-color: #fff;
+  width: 600px;
+  text-align: left;
+  margin-top: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0px 20px 20px 20px
+}
+div#header {
+  padding-bottom: 3px;
+  border-bottom: thin solid black;
+  text-align: right;
+}
+div#header ul {
+  padding-left: 0px;
+  margin-left: 0px;
+  float: right;
+}
+div#header ul li {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 5px;
+  display: inline;
+}
+span#title {
+  font-size: 18pt;
+}
+span#title a { text-decoration: none; font-weight: bold; }
+span#title a:visited { text-decoration: none; font-weight: bold; }
+span#title a:hover { background: #fff; }
+div#content {
+  text-align: left;
+}
+div#footer {
+  width: 100%;
+  margin-top: 40px;
+  border-bottom: thin solid black;
+}
+
+div.toggle-hidden {
+  display: none;
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+<title>{% block title %}{{ page.title }}{% endblock %}</title>
+<link rel="shortcut icon" href="/style/edit/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" href="/style/edit/main.css" type="text/css"/>
+<link rel="stylesheet" href="/style/edit/jquery-ui.min.css" type="text/css"/>
+<link rel="stylesheet" href="/style/codemirror/codemirror.css">
+<link rel="stylesheet" href="/style/codemirror/dialog.css">
+<link rel="stylesheet" href="/style/codemirror/theme/neat.css">
+<link rel="stylesheet" href="/style/codemirror/theme/elegant.css">
+<link rel="stylesheet" href="/style/codemirror/theme/erlang-dark.css">
+<link rel="stylesheet" href="/style/codemirror/theme/night.css">
+<link rel="stylesheet" href="/style/codemirror/theme/monokai.css">
+<link rel="stylesheet" href="/style/codemirror/theme/cobalt.css">
+<link rel="stylesheet" href="/style/codemirror/theme/eclipse.css">
+<link rel="stylesheet" href="/style/codemirror/theme/rubyblue.css">
+<link rel="stylesheet" href="/style/codemirror/theme/lesser-dark.css">
+<link rel="stylesheet" href="/style/codemirror/theme/xq-dark.css">
+<link rel="stylesheet" href="/style/codemirror/theme/ambiance.css">
+<link rel="stylesheet" href="/style/codemirror/theme/blackboard.css">
+<link rel="stylesheet" href="/style/codemirror/theme/vibrant-ink.css">
+<link rel="stylesheet" href="/style/codemirror/theme/solarized.css">
+<link rel="stylesheet" href="/style/codemirror/theme/twilight.css">
+<script type="text/javascript" src="/style/edit/jquery.min.js"></script>
+<script type="text/javascript" src="/style/edit/jquery-ui.min.js"></script>
+<style type="text/css">
+  .CodeMirror {
+    border: 1px solid #eee;
+    height: 60%;
+    font-size: 13px;
+  }
+  .CodeMirror-scroll {
+    overflow-y: hidden;
+    overflow-x: auto;
+  }
+  .CodeMirror-foldmarker {
+    color: blue;
+    text-shadow: #b9f 1px 1px 2px, #b9f -1px -1px 2px, #b9f 1px -1px 2px, #b9f -1px 1px 2px;
+    font-family: arial;
+    line-height: .3;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<div id="page">
+{% block header %}{% endblock %}
+{% block content %}{% endblock %}
+</div>
+</body>
+</html>
+

@@ -1,0 +1,41 @@
+{% extends 'authenticated.html' %}
+
+{% block title %}Modify Role Assignment{% endblock %}
+
+{% block content %}
+  <h1>Edit Role Assignment</h1>
+  <form action="/edit/roles/modify" method="post">
+    <table border="0"><tr>
+      <td >User</td><td>Role</td><td></td>
+    </tr><tr>
+      <td><input type="hidden" name="key" value="{{ role_assignment.key }}"/>
+        <input name="user" value="{{ role_assignment.user }}" class="ui-widget-content ui-corner-all" style="width:120pt"/>
+      </td>
+      <td><select name="role" class="ui-state-default ui-corner-all">
+        <option value="Editor"{% ifequal role_assignment.role 'Editor' %}SELECTED{% endifequal %}>Editor</option>
+        <option value="Manager"{% ifequal role_assignment.role 'Manager' %}SELECTED{% endifequal %}>Manager</option>
+      </select></td>
+      <td><button id="delrole" style="font-size:13px">Delete</button></td>
+    </tr></table>
+    <div><input type="submit" value="Save"></div>
+  </form>
+  <form action="/edit/roles/delete" method="post" style="display:none" id="deleter">
+    <input type="hidden" name="key" value="{{ role_assignment.key }}"/>
+  </form>
+  <script type="text/javascript">
+  $(function() {
+    $("input[type=submit]").button();
+    $("#delrole")
+      .button({
+        icons: {
+          primary: "ui-icon-closethick"
+        }
+      })
+      .click(function(event) {
+        $("#deleter").submit();
+        event.preventDefault();
+      });
+
+  })
+  </script>
+{% endblock %}
