@@ -24,7 +24,7 @@
   <thead>
     <tr class="ui-widget-header" style="text-align:left"><th>View</th><th>Edit</th><th>Author</th><th>Date</th></tr>
   </thead>
-  <tbody>
+  <tbody style="font-size:10pt">
   {% for item in list.object_list %}
     <tr>
       <td><a href="{{ item.url }}" class="ui-state-default" style="background: #fff; border: none;">{{ item.url }}</a></td>

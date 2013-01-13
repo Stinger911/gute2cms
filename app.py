@@ -13,17 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 import logging, traceback
+import webapp2
 import os
-import re
-import cgi
-
-from google.appengine.api import users
-from google.appengine.ext import db
-from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
-from google.appengine.ext.webapp.util import run_wsgi_app
+from google.appengine.ext import db
+from google.appengine.api import users
 from paginator import Paginator, PageNotAnInteger, EmptyPage
 
 PAGESIZE = 10
@@ -41,7 +36,7 @@ class Page(db.Model):
   def formatted_date(self):
     return self.date.strftime('%d %b %Y %H:%M:%S')
 
-class PageRenderer(webapp.RequestHandler):
+class PageRenderer(webapp2.RequestHandler):
   def get(self, url):
     try:
       page = Page.all().filter('url', url).get()
@@ -58,7 +53,7 @@ class PageRenderer(webapp.RequestHandler):
       path = os.path.join(os.path.dirname(__file__), 'html', '500.html')
       self.response.out.write(template.render(path, { }))
 
-class EditRequestHandler(webapp.RequestHandler):
+class EditRequestHandler(webapp2.RequestHandler):
   roles = None
 
   def respond(self, filename, payload):
@@ -357,14 +352,14 @@ class EditorConsole(EditRequestHandler):
     except:
       self.fail()
 
-app = webapp.WSGIApplication([
+app = webapp2.WSGIApplication([
                 ('/edit/roles/(.*)', RoleAssignmentEditor),
                 ('/edit/pages/(.*)', PageEditor),
                 ('/edit/?', EditorConsole),
                 ('(/.*)', PageRenderer),
               ])
-def main():
-  run_wsgi_app(application)
+# def main():
+#   run_wsgi_app(application)
 
-if __name__ == "__main__":
-  main()
+# if __name__ == "__main__":
+#   main()

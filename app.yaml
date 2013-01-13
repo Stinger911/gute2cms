@@ -8,7 +8,7 @@ handlers:
 - url: /style
   static_dir: style
 
-- url: /favicon.ico
+- url: /favicon\.ico
   static_files: style/default/favicon.ico
   upload: style/default/favicon.ico
 
